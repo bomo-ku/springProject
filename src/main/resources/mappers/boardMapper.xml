@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.mapper.BoardMapper">
+  <insert id="create">
+    insert into tbl_board
+    ( bno, title,content,writer)
+    values 
+    ( seq_tbl_board.nextval, #{title}, #{content}, #{writer})
+  </insert>
+  <select id="read" resultType="BoardVO">
+    select bno, title, content, writer, regdate, viewcnt
+    from tbl_board
+    where bno = #{bno}
+  </select>
+  <update id="update">
+    update tbl_board
+    set title=#{title}, content=#{content}
+    where bno = #{bno}
+  </update>
+  <delete id="delete">
+    delete from tbl_board
+    where bno = #{bno}
+  </delete>
+  <select id="listAll" resultType="BoardVO">
+    select bno, title, content, writer, regdate, viewcnt
+    from tbl_board
+    where bno > 0
+    order by bno desc, regdate desc
+  </select>
+  <!-- p 249 -->
+  <select id="listPage" resultType="BoardVO">
+    <![CDATA[
+    select t.* 
+	from (
+	        select rownum as no, z.*
+	        from (
+	               select bno, title, writer, content, regdate, viewcnt
+	               from tbl_board
+	               order by bno desc, regdate desc
+	              ) z 
+	        where rownum  <= (#{page})*10      
+	     ) t       
+	where t.no > (#{page}-1)*10
+	]]> 
+  </select>
+  <!-- p 256 -->
+  <select id="listCriteria" resultType="BoardVO">
+    <![CDATA[
+    select t.* 
+	from (
+	        select rownum as no, z.*
+	        from (
+	               select bno, title, writer, content, regdate, viewcnt
+	               from tbl_board
+	               order by bno desc, regdate desc
+	              ) z 
+	        where rownum  <= #{pageEnd}     
+	     ) t       
+	where t.no >= #{ pageBeginning }
+	]]> 
+  </select>
+  <!-- p 279 -->
+  <select id="countPaging" resultType="int">
+    <![CDATA[
+    select count(bno)
+    from tbl_board
+    where bno > 0
+	]]> 
+  </select>
+  
+  
+  <!-- p 324 -->
+  <sql id="search">    
+    <if test="searchType != null">
+     <!--                              ${ keyword }     -->
+     <bind name="pattern" value="'%' +  keyword  + '%'" />
+     
+     <if test="searchType == 't'.toString()">
+        and title like  #{ pattern }  
+     </if>
+     <if test="searchType == 'c'.toString()">
+        and content like   #{ pattern }  
+     </if>
+     <if test="searchType == 'w'.toString()">
+        and writer like   #{ pattern }  
+     </if>
+    </if>
+  </sql>
+  
+  <select id="listSearch" resultType="BoardVO">
+    <![CDATA[
+    select t.* 
+	from (
+	        select rownum as no, z.*
+	        from (
+	               select bno, title, writer, content, regdate, viewcnt
+	               from tbl_board
+	               where 1 = 1 
+    ]]> 
+    <include refid="search"></include>
+    <![CDATA[    
+    
+	               order by bno desc, regdate desc
+	              ) z 
+	        where rownum  <= #{pageEnd}     
+	     ) t       
+	where t.no >= #{ pageBeginning }
+	]]> 
+  </select>
+  <!-- p 324 -->
+  <select id="listSearchCount" resultType="int">
+    <![CDATA[
+    select count(bno)
+    from tbl_board
+    where bno > 0
+	]]>  
+    <include refid="search"></include> 
+  </select>
+  
+  <update id="plusViewcnt">
+ 
+    update tbl_board 
+    set viewcnt = viewcnt + 1 
+    where bno = #{bno}
+    
+  </update>
+  
+  
+</mapper>

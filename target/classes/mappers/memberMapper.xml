@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- p 132 namespace 설정 중요. -->
+<mapper namespace="org.zerock.mapper.MemberMapper">
+
+  <select id="getTime" resultType="string">
+    select sysdate from dual
+  </select>
+  
+  <insert id="insertMember">    
+    insert into tbl_member
+   ( ID, PWD, NAME, GENDER, BIRTH, IS_LUNAR, CPHONE, EMAIL, HABIT, REGDATE)
+    values
+    (#{id}, #{pwd}, #{name}, #{gender}, #{birth}, #{is_lunar}, #{CPhone}, #{email}, #{habit}, SYSDATE)
+    	
+  </insert>
+  
+  <!-- p 142 -->
+  <select id="selectMember" resultType="org.zerock.domain.MemberVO">
+    select *
+    from tbl_member
+    where userid = #{userid}
+  </select>
+  
+    <select id="selectName" resultType="org.zerock.domain.MemberVO">
+    select *
+    from tbl_member
+    where id = #{userid}
+  </select>
+  
+  <select id="readWithPW" resultType="org.zerock.domain.MemberVO">
+    select *
+    from tbl_member
+    where userid = #{userid} and userpw=#{userpw}
+  </select>
+</mapper>
