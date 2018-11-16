@@ -49,7 +49,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public MemberVO readName(String userid) throws Exception {
-		System.out.println(">>>>>> 2Â÷:" + userid);
+
 		return this.sqlSession.selectOne(namespace +".selectName", userid);
 	}
 

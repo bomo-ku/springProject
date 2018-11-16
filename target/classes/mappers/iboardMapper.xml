@@ -3,30 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="org.zerock.mapper.BoardMapper">
+<mapper namespace="org.zerock.mapper.iBoardMapper">
   <insert id="create">
-    insert into tbl_board
-    ( bno, title,content,writer, fileattach)
+    insert into i_board
+    ( bno, title,content,writer)
     values 
-    ( seq_tbl_board.nextval, #{title}, #{content}, #{writer},  #{fileattach})
+    ( seq_i_board.nextval, #{title}, #{content}, #{writer})
   </insert>
   <select id="read" resultType="BoardVO">
     select bno, title, content, writer, regdate, viewcnt
-    from tbl_board
+    from i_board
     where bno = #{bno}
   </select>
   <update id="update">
-    update tbl_board
+    update i_board
     set title=#{title}, content=#{content}
     where bno = #{bno}
   </update>
   <delete id="delete">
-    delete from tbl_board
+    delete from i_board
     where bno = #{bno}
   </delete>
   <select id="listAll" resultType="BoardVO">
     select bno, title, content, writer, regdate, viewcnt
-    from tbl_board
+    from i_board
     where bno > 0
     order by bno desc, regdate desc
   </select>
@@ -38,7 +38,7 @@
 	        select rownum as no, z.*
 	        from (
 	               select bno, title, writer, content, regdate, viewcnt
-	               from tbl_board
+	               from i_board
 	               order by bno desc, regdate desc
 	              ) z 
 	        where rownum  <= (#{page})*10      
@@ -54,7 +54,7 @@
 	        select rownum as no, z.*
 	        from (
 	               select bno, title, writer, content, regdate, viewcnt
-	               from tbl_board
+	               from i_board
 	               order by bno desc, regdate desc
 	              ) z 
 	        where rownum  <= #{pageEnd}     
@@ -66,7 +66,7 @@
   <select id="countPaging" resultType="int">
     <![CDATA[
     select count(bno)
-    from tbl_board
+    from i_board
     where bno > 0
 	]]> 
   </select>
@@ -96,8 +96,8 @@
 	from (
 	        select rownum as no, z.*
 	        from (
-	               select bno, title, writer, content, regdate, viewcnt, fileattach
-	               from tbl_board
+	               select bno, title, writer, content, regdate, viewcnt
+	               from i_board
 	               where 1 = 1 
     ]]> 
     <include refid="search"></include>
@@ -114,7 +114,7 @@
   <select id="listSearchCount" resultType="int">
     <![CDATA[
     select count(bno)
-    from tbl_board
+    from i_board
     where bno > 0
 	]]>  
     <include refid="search"></include> 
@@ -122,7 +122,7 @@
   
   <update id="plusViewcnt">
  
-    update tbl_board 
+    update i_board 
     set viewcnt = viewcnt + 1 
     where bno = #{bno}
     

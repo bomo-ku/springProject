@@ -57,12 +57,15 @@
             <li class="nav-item">
               <a class="nav-link" href="/sboard/list.htm">Board</a>
              </li>
-            <li class="nav-item">
+             <li class="nav-item">
+              <a class="nav-link" href="/iboard/list.htm">iBoard</a>
+             </li>
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/upload/uploadForm.htm">uploadForm</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/upload/uploadAjax.htm">uploadAjax</a>
-            </li>
+            </li> -->
             </ul> 
             <!-- 로그인 한 사용자 정보 얻어올 수 있다. -->	
              <ul class="navbar-nav ml-auto">	

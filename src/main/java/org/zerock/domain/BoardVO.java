@@ -10,8 +10,16 @@ public class BoardVO {
 	private String writer;
 	private Date regdate;
 	private int viewcnt;
+	private String fileattach;
+	
 	public int getBno() {
 		return bno;
+	}
+	public String getFileattach() {
+		return fileattach;
+	}
+	public void setFileattach(String fileattach) {
+		this.fileattach = fileattach;
 	}
 	public void setBno(int bno) {
 		this.bno = bno;

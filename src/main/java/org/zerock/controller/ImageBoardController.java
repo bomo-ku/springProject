@@ -1,21 +1,15 @@
 package org.zerock.controller;
 
-import java.io.File;
-import java.util.UUID;
-
-import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
@@ -23,21 +17,20 @@ import org.zerock.domain.PageMaker;
 import org.zerock.domain.SearchCriteria;
 import org.zerock.service.BoardService;
 import org.zerock.service.MemberService;
+import org.zerock.service.iBoardService;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping("/sboard/*")
-public class SearchBoardController {
+@RequestMapping("/iboard/*")
+public class ImageBoardController {
 	
 	private static final Logger logger = 
-			LoggerFactory.getLogger(SearchBoardController.class);
+			LoggerFactory.getLogger(ImageBoardController.class);
 	
-	@Resource(name="uploadPath")
-	private String uploadPath;
 	@Inject
-	private BoardService service;
+	private iBoardService service;
 	@Inject
 	private MemberService service2;
 	
@@ -56,48 +49,29 @@ public class SearchBoardController {
 				this.service.listSearchCount(cri));
 		//System.out.println(" >>> " + pageMaker.toString() );
 		model.addAttribute("pageMaker", pageMaker);
-		return "sboard.list";
+		return "iboard.list";
 	}
 	
 	@RequestMapping("/register.htm")
 	public String registerGET(String userid, Model model) throws Exception{
 		logger.info("> register get ..........");
-        		
+        
+		System.out.println(userid);		
         model.addAttribute(this.service2.getName(userid));
         
-		return "sboard.register";
+		return "iboard.register";
 	}
 	
 	@RequestMapping(value="/register.htm", method=RequestMethod.POST)
 	public String registerPOST(BoardVO vo
-			, Model model, RedirectAttributes rttr, MultipartFile file) throws Exception{
+			, Model model, RedirectAttributes rttr) throws Exception{
 		logger.info("> register post ..........");
-		logger.info("> originalName : "+file.getOriginalFilename());
-		logger.info("> size : "+file.getSize());
-		logger.info("> contentType : "+file.getContentType());
-		
-		String savedName = 
-				uploadFile(file.getOriginalFilename(), file.getBytes());
-		
-		model.addAttribute("savedName", savedName);
-		
-		vo.setFileattach(savedName);
-		
 		this.service.regist(vo);
 		//model.addAttribute("result", "success");
 		rttr.addFlashAttribute("msg", "success");
 		//return "/board/success";		
-		return "redirect:/sboard/list.htm";
+		return "redirect:/iboard/list.htm";
 	}
-	
-	private String uploadFile(String originalFilename
-			, byte[] fileData) throws Exception{
-		UUID uid = UUID.randomUUID();
-		String savedName = uid.toString()+"_"+originalFilename;
-		File target = new File(uploadPath, savedName);
-		FileCopyUtils.copy(fileData, target); // byte [] -> File ���옣
-		return savedName;
-	} 
 	
 	@RequestMapping("/readPage.htm")
 	public String read(@RequestParam("bno") int bno
@@ -106,7 +80,7 @@ public class SearchBoardController {
 		
 		this.service.hitUp(bno);  //*******
 		model.addAttribute(this.service.read(bno));
-		return "sboard.readPage";	
+		return "iboard.readPage";	
 		
 	}
 	
@@ -123,7 +97,7 @@ public class SearchBoardController {
 		
 		rttr.addFlashAttribute("msg","success");
 		
-		return "redirect:/sboard/list.htm";
+		return "redirect:/iboard/list.htm";
 	}
 	
 	
@@ -136,7 +110,7 @@ public class SearchBoardController {
 	            , Model model) throws Exception{
 			
 			model.addAttribute("vo", this.service.read(bno));
-			return "sboard.modifyPage";
+			return "iboard.modifyPage";
 			
 		}  
 		
@@ -153,7 +127,7 @@ public class SearchBoardController {
 			rttr.addAttribute("perPageNum", cri.getPerPageNum());
 			rttr.addAttribute("msg", "success");
 			
-			return "redirect:/sboard/list.htm";
+			return "redirect:/iboard/list.htm";
 		}  
 		
 }

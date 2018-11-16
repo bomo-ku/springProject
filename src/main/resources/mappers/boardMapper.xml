@@ -6,9 +6,9 @@
 <mapper namespace="org.zerock.mapper.BoardMapper">
   <insert id="create">
     insert into tbl_board
-    ( bno, title,content,writer)
+    ( bno, title,content,writer, fileattach)
     values 
-    ( seq_tbl_board.nextval, #{title}, #{content}, #{writer})
+    ( seq_tbl_board.nextval, #{title}, #{content}, #{writer},  #{fileattach})
   </insert>
   <select id="read" resultType="BoardVO">
     select bno, title, content, writer, regdate, viewcnt
@@ -96,7 +96,7 @@
 	from (
 	        select rownum as no, z.*
 	        from (
-	               select bno, title, writer, content, regdate, viewcnt
+	               select bno, title, writer, content, regdate, viewcnt, fileattach
 	               from tbl_board
 	               where 1 = 1 
     ]]> 

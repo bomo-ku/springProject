@@ -28,7 +28,8 @@ import org.zerock.util.UploadFileUtils;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping("/upload/*")
+@RequestMapping(value = {"/upload/*", "/iboard/*"})
+
 public class UploadController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
@@ -49,6 +50,7 @@ public class UploadController {
 		logger.info("> size : "+file.getSize());
 		logger.info("> contentType : "+file.getContentType());
 		
+		
 		String savedName = 
 				uploadFile(file.getOriginalFilename(), file.getBytes());
 		model.addAttribute("savedName", savedName);
@@ -62,6 +64,7 @@ public class UploadController {
 		String savedName = uid.toString()+"_"+originalFilename;
 		File target = new File(uploadPath, savedName);
 		FileCopyUtils.copy(fileData, target); // byte [] -> File ���옣
+
 		return savedName;
 	} 
 	

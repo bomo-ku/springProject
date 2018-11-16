@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>   
-     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -25,42 +23,34 @@
     <!-- Custom styles for this template -->
     <!-- <link href="css/clean-blog.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/clean-blog.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	var formObj = $('form[role="form"]');
+	
+    $(".btn-warning").on("click", function (){
+    	self.location="/sboard/list.htm?page=${cri.page}&perPageNum=${cri.perPageNum}";
+    });
     
-    <style>
-	  iframe{
-	    width:0px;
-	    height:0px;
-	    border:0px;	  
-	  }
-	</style>
+    $(".btn-primary").on("click", function (){
+    	formObj.submit();
+    });
+});
+</script>
 </head>
 <body>
-
-<!-- action="uploadForm.htm" -->
- <form role="form"   method="post" enctype="multipart/form-data">
-  Title  <input type="text" name="title"/><br>
+ <form role="form" method="post">
+  <input type="hidden" name="page" value="${ cri.page }" />
+  <input type="hidden" name="perPageNum" value="${ cri.perPageNum }" />
+ 
+  bno <input type="text" name="bno" value="${ vo.bno }" readonly="readonly" /><br>
+  Title  <input type="text" name="title" value="${ vo.title }" /><br>
   Content <br>
-  <textarea rows="3" name="content"></textarea><br>
-
-
-  <input type="file" name="file" />  <br>
-
-
-<iframe name="zeroFrame"></iframe>  <br>
-
-<script>
-  function addFilePath(msg){
-	  alert(msg);
-	 document.getElementById("form").reset(); 
-  }
-</script>
-  
-  
-  <s:authentication property="name" var="loginUser"/>
-  Writer  <input type="text" name="writer" value="${ memberVO.name }"/><br>
-  	
-  
-  <button type="submit">Submit</button>
+  <textarea rows="3" name="content">${ vo.content }</textarea>
+  <br>
+  Writer  <input type="text" name="writer" value="${ vo.writer }" readonly="readonly"/><br>
+  <button type="submit" class="btn-primary">Save</button>
+  <button type="submit" class="btn-warning">Cancel</button>
  </form>
 </body>
 </html>

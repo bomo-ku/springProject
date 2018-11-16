@@ -58,7 +58,7 @@ $(document).ready(function(){
     <h2 style="text-align: center">Search Board</h2>
 	<table border="1" style="width: 70%;margin: 0 auto; text-align: center;">
 	    <tr>
-	       <td colspan="5" align="center">
+	       <td colspan="6" align="center">
 		    <div class="box-body">
 		      <%-- 
 		      <select name="searchType" id="">		      
@@ -93,6 +93,7 @@ $(document).ready(function(){
 			<th>WRITER</th>
 			<th>REGDATE</th>
 			<th style="width: 40px;">VIEWCNT</th>
+			<th>첨부파일</th>
 		</tr>
 		
 		<c:if test="${ empty list }">
@@ -109,12 +110,13 @@ $(document).ready(function(){
 					<td><fmt:formatDate value="${ vo.regdate }"
 							pattern="yyyy-MM-dd HH:mm" /></td>
 					<td><span>${ vo.viewcnt }</span></td>
+					<td><span><a href="/download.htm?fileName=${ vo.fileattach  }" >${ vo.fileattach } </a></span></td>
 				</tr>
 			</c:forEach>
 		</c:if>
 		
 		<tr>
-		   <td colspan="5">
+		   <td colspan="6">
 		   <div class="pagination" style="text-align: center">
 		    <c:if test="${ pageMaker.prev }">
 		      <li><a href="list.htm?page=${ pageMaker.startPage -1 }&perPageNum=${cri.perPageNum}&searchType=${ cri.searchType }&keyword=${cri.keyword}">&laquo;</a></li>
@@ -132,7 +134,7 @@ $(document).ready(function(){
 		</tr>
 		
 		<tr>
-		  <td colspan="5" align="right">
+		  <td colspan="6" align="right">
 		  <s:authentication property="name" var="loginUser"/>
 		    <a href="/sboard/register.htm?userid=${loginUser}">Register</a>
 		  </td>

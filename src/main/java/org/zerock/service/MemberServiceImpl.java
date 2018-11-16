@@ -14,7 +14,6 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO getName(String userid) throws Exception {
-		System.out.println(">>> " + userid);
 		return this.memberDao.readName(userid);
 		
 	}
