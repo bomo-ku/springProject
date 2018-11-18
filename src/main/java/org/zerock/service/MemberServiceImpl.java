@@ -18,6 +18,12 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 
+	@Override
+	public MemberVO usePoint(String userid) throws Exception {
+		
+		return this.memberDao.usePt(userid);
+	}
+
 	
 
 }

@@ -12,5 +12,6 @@ public interface MemberDAO {
 	public MemberVO readWithPW(String userid, String userpw) throws Exception;
 	
 	public MemberVO readName(String userid) throws Exception;
+	public MemberVO usePt(String userid);
 	
 }

@@ -5,22 +5,31 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.SearchCriteria;
 import org.zerock.persistence.BoardDAO;
+import org.zerock.persistence.MemberDAO;
 
 @Service
 public class BoardServiceImpl implements BoardService{
 	
 	@Inject
 	private BoardDAO dao;
+	
+	@Inject
+	private MemberDAO dao2;
 
+	@Transactional
 	@Override
-	public void regist(BoardVO vo) throws Exception {
+	public void regist(BoardVO vo, String userid) throws Exception {
+		
+		
 		this.dao.create(vo);
 		// 1. 로그 남기는 객체 메소드
 		// 2. 서비스 기능.. 
+		this.dao2.usePt(userid);
 	}
 
 	@Override

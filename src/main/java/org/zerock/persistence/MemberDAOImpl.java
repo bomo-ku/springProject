@@ -53,4 +53,10 @@ public class MemberDAOImpl implements MemberDAO{
 		return this.sqlSession.selectOne(namespace +".selectName", userid);
 	}
 
+	@Override
+	public MemberVO usePt(String userid) {
+		
+		return this.sqlSession.selectOne(namespace +".usePoint", userid);
+	}
+
 }

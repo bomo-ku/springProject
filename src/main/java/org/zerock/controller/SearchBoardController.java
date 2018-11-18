@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -68,8 +69,9 @@ public class SearchBoardController {
 		return "sboard.register";
 	}
 	
+ 
 	@RequestMapping(value="/register.htm", method=RequestMethod.POST)
-	public String registerPOST(BoardVO vo
+	public String registerPOST(String userid, BoardVO vo
 			, Model model, RedirectAttributes rttr, MultipartFile file) throws Exception{
 		logger.info("> register post ..........");
 		logger.info("> originalName : "+file.getOriginalFilename());
@@ -83,7 +85,9 @@ public class SearchBoardController {
 		
 		vo.setFileattach(savedName);
 		
-		this.service.regist(vo);
+		this.service.regist(vo, userid);
+		//this.service2.usePoint(userid);
+		
 		//model.addAttribute("result", "success");
 		rttr.addFlashAttribute("msg", "success");
 		//return "/board/success";		

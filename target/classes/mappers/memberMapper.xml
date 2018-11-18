@@ -36,4 +36,13 @@
     from tbl_member
     where userid = #{userid} and userpw=#{userpw}
   </select>
+  
+  <update id="usePoint">
+    update tbl_member
+    set point = point -1
+    where id = #{userid}
+  
+  </update>
+  
+  
 </mapper>
